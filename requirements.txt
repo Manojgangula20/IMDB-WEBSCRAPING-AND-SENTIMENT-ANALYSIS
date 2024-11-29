@@ -1,0 +1,12 @@
+requests
+numpy
+pandas
+mysql-connector-python
+scipy
+seaborn
+beautifulsoup4
+currencyconverter
+matplotlib
+nltk
+vaderSentiment
+scikit-learn

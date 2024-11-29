@@ -1,0 +1,71 @@
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/imdbmovies.csv'
+INTO TABLE movies
+FIELDS TERMINATED BY ';'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+    def DisplayTheDetails(self):
+        self.options = {'s': 'search', 'a': 'analyse', 'q': 'quit'}
+        while True:
+            Choice, flag = self.displayMenu()
+            if flag == 1 and Choice == '':
+                print("Please select the option from the menu:\n")
+                continue
+            elif flag == 2 and Choice not in self.options.keys():
+                print("Please select the option from the menu:\n")
+                continue
+            elif flag == 0 and Choice in self.options.keys():
+                if Choice == 's':
+                    self.getChoiceMovie()
+                    continue
+            elif Choice == 'a':
+                self.optionAnalyze = {
+                    1: 'Display Top 10 Rated Movies',
+                    2: 'Display Top 10 High Budget Movies',
+                    3: 'Display Critic Vs Audience',
+                    4: 'Distribution of Critic Vs Audience',
+                    5: 'Display Stack Distribution of Budget',
+                    6: 'Display Boxplot',
+                    7: 'Display Barplot',
+                    8: 'Display Dashboard'
+                }
+                self.movieData = self.DataAnalysis()
+                while True:
+                    try:
+                        self.OptionChoice()
+                        choice = int(input("Please enter the option below:\n"))
+                        if choice not in self.optionAnalyze.keys():
+                            print("Sorry, please enter your choice from the options below.")
+                            continue
+                        if choice == 1:
+                            self.getTop10(self.movieData)
+                        elif choice == 2:
+                            self.getTop10HighBudgetMovie(self.movieData)
+                        elif choice == 3:
+                            self.DisplayCricticAudienceRating(self.movieData)
+                        elif choice == 4:
+                            self.OptionChoiceDist()
+                        elif choice == 5:
+                            self.DisplayStackedHistogram(self.movieData)
+                        elif choice == 6:
+                            self.OptionChoiceBox()
+                        elif choice == 7:
+                            self.OptionChoiceBar()
+                                            
+                        # After displaying the plot, ask if the user wants to continue
+                        continue_analysis = input("Do you want to analyze more data? Y/n:\n")
+                        if continue_analysis.lower() == 'n':
+                            break
+                    except ValueError:
+                        self.DisplayTheDetails()
+                        print("Sorry! Please enter a number.")
+                        continue
+            elif Choice == 'q':
+                break
+        check_again = input("Do you want to check again? Y/n:\n")
+        if  check_again.lower() != 'n':
+            self.DisplayTheDetails()
+        else:
+            print("\n***********************************************************************************************")
+            print("Thanks for your participation, GoodBye!!!")
